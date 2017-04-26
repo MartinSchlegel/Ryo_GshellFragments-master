@@ -14,6 +14,8 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import net.sqlcipher.database.SQLiteDatabase;
+
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
@@ -27,7 +29,9 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        SQLiteDatabase.loadLibs(this);
         DatabaseHandler db = new DatabaseHandler(this);
+
         //db.addHost(new Host("Tycho","apollo","apollo@tycho.xxx.xxx","password"));
         //db.addHost(new Host("Hex","ceto","ceto@hex.zzz.zzz","password2"));
         //db.addHost(new Host("Zeus","simon","simon@zeus.www.www","password3"));

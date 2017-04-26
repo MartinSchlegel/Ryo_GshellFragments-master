@@ -2,9 +2,9 @@ package com.example.ryo.gshellfragments;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
+import net.sqlcipher.Cursor;
+import net.sqlcipher.database.SQLiteDatabase;
+import net.sqlcipher.database.SQLiteOpenHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +62,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     // Adding new contact
     void addHost(Host host) {
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getWritableDatabase("fowler");
 
         ContentValues values = new ContentValues();
         values.put(KEY_ALIAS, host.getAlias()); // Host alias
@@ -77,7 +77,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     // Getting single host entry
     Host getHost(int id) {
-        SQLiteDatabase db = this.getReadableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase("fowler");
 
         Cursor cursor = db.query(TABLE_HOSTS, new String[] { KEY_ID,
                         KEY_ALIAS, KEY_USERNAME, KEY_ADDRESS, KEY_PASSWORD }, KEY_ID + "=?",
@@ -99,7 +99,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         // Select All Query
         String selectQuery = "SELECT  * FROM " + TABLE_HOSTS;
 
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getWritableDatabase("fowler");
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         // looping through all rows and adding to list
@@ -124,7 +124,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     // Updating single host entry
     public int updateHost(Host host) {
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getWritableDatabase("fowler");
 
         ContentValues values = new ContentValues();
         values.put(KEY_ALIAS, host.getAlias());
@@ -139,7 +139,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     // Deleting single host entry
     public void deleteHost(Host host) {
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getWritableDatabase("fowler");
         db.delete(TABLE_HOSTS, KEY_ID + " = ?",
                 new String[] { String.valueOf(host.getID()) });
         db.close();
@@ -149,7 +149,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     // Getting host count
     public int getHostsCount() {
         String countQuery = "SELECT  * FROM " + TABLE_HOSTS;
-        SQLiteDatabase db = this.getReadableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase("fowler");
         Cursor cursor = db.rawQuery(countQuery, null);
         cursor.close();
 
