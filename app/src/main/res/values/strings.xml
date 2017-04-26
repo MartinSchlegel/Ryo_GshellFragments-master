@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">GshellFragments</string>
+    <string name="host_list_name">My Hosts</string>
+
+    <string name="hint_username">Username</string>
+    <string name="hint_address">Address</string>
+    <string name="hint_alias">Alias</string>
+    <string name="hint_hostname">Hostname</string>
+    <string name="hint_password">Password</string>
+    <string name="text_save">SAVE</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+</resources>
