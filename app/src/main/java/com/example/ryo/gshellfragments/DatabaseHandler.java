@@ -2,6 +2,10 @@ package com.example.ryo.gshellfragments;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.sqlite.SQLiteException;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+
 import net.sqlcipher.Cursor;
 import net.sqlcipher.database.SQLiteDatabase;
 import net.sqlcipher.database.SQLiteOpenHelper;
@@ -77,7 +81,21 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     // Getting single host entry
     Host getHost(int id) {
-        SQLiteDatabase db = this.getReadableDatabase("fowler");
+        //TODO FIX THIS STUFF
+
+        SQLiteDatabase db = null;
+        try {
+            db = this.getReadableDatabase("fowler");
+        }
+        catch(IllegalStateException|SQLiteException e){
+
+            //getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+            //FragmentManager manager = getSupportFragmentManager();
+            //fragmentDialogHostEntry testfrag = new fragmentDialogHostEntry();
+            //testfrag.show(manager,"fragment_host_entry");
+            return null;
+        }
+        //catch(Exception e){
 
         Cursor cursor = db.query(TABLE_HOSTS, new String[] { KEY_ID,
                         KEY_ALIAS, KEY_USERNAME, KEY_ADDRESS, KEY_PASSWORD }, KEY_ID + "=?",
@@ -156,4 +174,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         // return count
         return cursor.getCount();
     }
+
+
 }

@@ -54,6 +54,10 @@ public class fragmentDialogHostEdit extends DialogFragment {
         db = new DatabaseHandler(getActivity());
         final Host host = db.getHost(hostid);
 
+        if (host == null){
+
+        }
+
 
         // Use the Builder class for convenient dialog construction
 
