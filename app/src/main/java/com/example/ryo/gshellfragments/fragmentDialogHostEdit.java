@@ -17,9 +17,6 @@ import android.widget.Toast;
 
 public class fragmentDialogHostEdit extends DialogFragment {
 
-    //password for encryption
-    private static final String password_encrypt = MainActivity.getPassEnryptString();
-
     private int hostid;
     private DatabaseHandler db;
 

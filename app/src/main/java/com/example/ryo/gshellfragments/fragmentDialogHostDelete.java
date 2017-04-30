@@ -18,8 +18,6 @@ import java.util.List;
  */
 
 public class fragmentDialogHostDelete extends DialogFragment {
-    //password for encryption
-    private static final String password_encrypt = MainActivity.getPassEnryptString();
 
     private static List<Host> hostData;
     private DatabaseHandler db;
