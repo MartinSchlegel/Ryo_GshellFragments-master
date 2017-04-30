@@ -25,8 +25,19 @@ public class MainActivity extends AppCompatActivity
         fragmentDialogHostEditList.HostEditListDialogListener,
         fragmentDialogHostEdit.HostEditDialogListener{
 
+    public static String password_encrypt = null;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (getIntent().hasExtra("password")){
+            password_encrypt = getIntent().getExtras().getString("password");
+
+            int toast_dur = Toast.LENGTH_LONG;
+            Toast toast = Toast.makeText(getApplicationContext(),password_encrypt,toast_dur);
+
+            toast.show();}
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         SQLiteDatabase.loadLibs(this);
@@ -166,4 +177,9 @@ public class MainActivity extends AppCompatActivity
         testfrag.show(manager,"fragment_host_edit");
     }
 
+    //For passing passwords to fragments
+    //TODO: Get a better way to do this.
+    public static String getPassEnryptString(){
+        return password_encrypt;
+    }
 }

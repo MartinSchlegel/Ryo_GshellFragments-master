@@ -23,6 +23,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     // Database Version
     private static final int DATABASE_VERSION = 1;
 
+    //password for encryption
+    private static final String password_encrypt = MainActivity.getPassEnryptString();
+
     // Database Name
     private static final String DATABASE_NAME = "hostsManager";
 
@@ -66,7 +69,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     // Adding new contact
     void addHost(Host host) {
-        SQLiteDatabase db = this.getWritableDatabase("fowler");
+        SQLiteDatabase db = this.getWritableDatabase(password_encrypt);
 
         ContentValues values = new ContentValues();
         values.put(KEY_ALIAS, host.getAlias()); // Host alias
@@ -85,7 +88,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         SQLiteDatabase db = null;
         try {
-            db = this.getReadableDatabase("fowler");
+            db = this.getReadableDatabase(password_encrypt);
         }
         catch(IllegalStateException|SQLiteException e){
 
@@ -117,7 +120,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         // Select All Query
         String selectQuery = "SELECT  * FROM " + TABLE_HOSTS;
 
-        SQLiteDatabase db = this.getWritableDatabase("fowler");
+        SQLiteDatabase db = this.getWritableDatabase(password_encrypt);
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         // looping through all rows and adding to list
@@ -142,7 +145,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     // Updating single host entry
     public int updateHost(Host host) {
-        SQLiteDatabase db = this.getWritableDatabase("fowler");
+        SQLiteDatabase db = this.getWritableDatabase(password_encrypt);
 
         ContentValues values = new ContentValues();
         values.put(KEY_ALIAS, host.getAlias());
@@ -157,7 +160,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     // Deleting single host entry
     public void deleteHost(Host host) {
-        SQLiteDatabase db = this.getWritableDatabase("fowler");
+        SQLiteDatabase db = this.getWritableDatabase(password_encrypt);
         db.delete(TABLE_HOSTS, KEY_ID + " = ?",
                 new String[] { String.valueOf(host.getID()) });
         db.close();
@@ -167,7 +170,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     // Getting host count
     public int getHostsCount() {
         String countQuery = "SELECT  * FROM " + TABLE_HOSTS;
-        SQLiteDatabase db = this.getReadableDatabase("fowler");
+        SQLiteDatabase db = this.getReadableDatabase(password_encrypt);
         Cursor cursor = db.rawQuery(countQuery, null);
         cursor.close();
 

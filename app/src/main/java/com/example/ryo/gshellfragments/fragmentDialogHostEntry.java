@@ -20,6 +20,10 @@ public class fragmentDialogHostEntry extends DialogFragment {
      * Each method passes the DialogFragment in case the host needs
      * to query it.
      */
+
+    //password for encryption
+    private static final String password_encrypt = MainActivity.getPassEnryptString();
+
     public interface HostEntryDialogListener {
         public void onHostEntryDialogPositiveClick(Host newEntry);
     }

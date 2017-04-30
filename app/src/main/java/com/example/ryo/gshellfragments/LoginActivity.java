@@ -148,12 +148,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         new File(contextDir.getAbsolutePath() + "/PasswordFile"+"/"+lsDataFilesDir[i].getName()).delete();
                     }
 
-                    dataFilesDir = new File(contextDir.getAbsolutePath() + "/dataFiles");
+                    getApplicationContext().deleteDatabase("hostsManager");
 
-                    lsDataFilesDir = dataFilesDir.listFiles();
-                    for (int i = 0; i < lsDataFilesDir.length; ++i){
-                        new File(contextDir.getAbsolutePath() + "/dataFiles"+"/"+lsDataFilesDir[i].getName()).delete();
-                    }
                     Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                     startActivity(intent);
                 }
