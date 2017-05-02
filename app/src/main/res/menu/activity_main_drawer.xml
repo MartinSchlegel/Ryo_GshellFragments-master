@@ -26,10 +26,6 @@
                 android:id="@+id/nav_logout"
                 android:icon="@drawable/ic_account_box_black_24dp"
                 android:title="Logout"/>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
         </menu>
     </item>
 

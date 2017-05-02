@@ -220,28 +220,25 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private void attemptLogin(Boolean is_new) {
 
         String filepath = getApplicationContext().getFilesDir().getAbsolutePath() + "/PasswordFile";
-        String password = mPasswordView.getText().toString();
+        String password_encrypt = mPasswordView.getText().toString();
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
 
         if (is_new) {
             //password = password + "_saved";
-            Server password_server = new Server("password_file.txt","dummy",password, "dummy");
-            password_server.save(getApplicationContext().getFilesDir().getAbsolutePath() + "/PasswordFile",password);
-            intent.putExtra("password", password);
+            Server password_server = new Server("password_file.txt","dummy",password_encrypt, "dummy");
+            password_server.save(getApplicationContext().getFilesDir().getAbsolutePath() + "/PasswordFile",password_encrypt);
+            intent.putExtra("password_encrypt", password_encrypt);
             startActivity(intent);
         } else {
-            Server password_server = Server.load(getApplicationContext().getFilesDir().getAbsolutePath() + "/PasswordFile/password_file.txt",password);
-            String password_orig = password_server.passwd;
-            int toast_dur = Toast.LENGTH_LONG;
-            Toast toast = Toast.makeText(getApplicationContext(),"Original password is: " + password_orig + " and trial password is " + password,toast_dur);
+            Server password_server = Server.load(getApplicationContext().getFilesDir().getAbsolutePath() + "/PasswordFile/password_file.txt",password_encrypt);
 
-            toast.show();
-            if (password.equals(password_orig)) {
+            if (password_encrypt.equals(password_server.passwd)) {
+                int toast_dur = Toast.LENGTH_LONG;
 
-                toast = Toast.makeText(getApplicationContext(),"Password is correct!",toast_dur);
+                Toast toast = Toast.makeText(getApplicationContext(),"Password is correct!",toast_dur);
 
                 toast.show();
-                intent.putExtra("password", password);
+                intent.putExtra("password_encrypt", password_encrypt);
                 startActivity(intent);
             } else {
                 //TODO find a more elegant way to exit this function
@@ -326,7 +323,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(password);
+            mAuthTask = new UserLoginTask(password_encrypt);
             mAuthTask.execute((Void) null);
         }
 

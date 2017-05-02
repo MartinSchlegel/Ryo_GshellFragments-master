@@ -30,13 +30,9 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (getIntent().hasExtra("password")){
-            password_encrypt = getIntent().getExtras().getString("password");
-
-            int toast_dur = Toast.LENGTH_LONG;
-            Toast toast = Toast.makeText(getApplicationContext(),password_encrypt,toast_dur);
-
-            toast.show();}
+        if (getIntent().hasExtra("password_encrypt")){
+            password_encrypt = getIntent().getExtras().getString("password_encrypt");
+        }
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -116,8 +112,6 @@ public class MainActivity extends AppCompatActivity
             testfrag.show(manager,"fragment_host_delete");
 
         } else if (id == R.id.nav_settings) {
-
-        } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_logout) {
 
