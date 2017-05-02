@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.CursorLoader;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.content.pm.PackageManager;
@@ -15,6 +16,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -130,41 +132,54 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 }
             });
 
+            final DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    switch (which){
+                        case DialogInterface.BUTTON_POSITIVE:
+                            //Yes button clicked
+                            String dummy = "Deleting all accounts";
+                            int toast_dur = Toast.LENGTH_LONG;
+                            Toast toast = Toast.makeText(getApplicationContext(),dummy,toast_dur);
+
+                            toast.show();
+
+                            File dataFilesDir = new File(contextDir.getAbsolutePath() + "/PasswordFile");
+
+                            File[] lsDataFilesDir = dataFilesDir.listFiles();
+                            for (int i = 0; i < lsDataFilesDir.length; ++i){
+                                // deleting any old app passwords
+                                new File(contextDir.getAbsolutePath() + "/PasswordFile"+"/"+lsDataFilesDir[i].getName()).delete();
+                            }
+
+                            getApplicationContext().deleteDatabase("hostsManager");
+
+                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                            startActivity(intent);
+                            break;
+
+                        case DialogInterface.BUTTON_NEGATIVE:
+                            //No button clicked
+                            break;
+                    }
+                }
+            };
+
             Button deleteAccountButton = (Button) findViewById(R.id.delte_all_sign_in_button);
             deleteAccountButton.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    String dummy = "Deleting all accounts";
-                    int toast_dur = Toast.LENGTH_LONG;
-                    Toast toast = Toast.makeText(getApplicationContext(),dummy,toast_dur);
-
-                    toast.show();
-
-                    File dataFilesDir = new File(contextDir.getAbsolutePath() + "/PasswordFile");
-
-                    File[] lsDataFilesDir = dataFilesDir.listFiles();
-                    for (int i = 0; i < lsDataFilesDir.length; ++i){
-                        // deleting any old app passwords
-                        new File(contextDir.getAbsolutePath() + "/PasswordFile"+"/"+lsDataFilesDir[i].getName()).delete();
-                    }
-
-                    getApplicationContext().deleteDatabase("hostsManager");
-
-                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                    startActivity(intent);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                    builder.setMessage("This is a hard reset and all server files will be deleted. Are you sure?").setPositiveButton("Yes", dialogClickListener)
+                            .setNegativeButton("No", dialogClickListener).show();
                 }
             });
-
-
 
             mLoginFormView = findViewById(R.id.login_form);
             mProgressView = findViewById(R.id.login_progress);
         }
 
     }
-
-
-
 
     private void populateAutoComplete() {
         /*
