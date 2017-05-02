@@ -35,7 +35,7 @@ import java.util.List;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
+public class LoginActivity extends AppCompatActivity{ //implements LoaderCallbacks<Cursor> {
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -156,6 +156,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
                             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                             startActivity(intent);
+                            finish();
                             break;
 
                         case DialogInterface.BUTTON_NEGATIVE:
@@ -180,15 +181,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
 
     }
-
+/*
     private void populateAutoComplete() {
-        /*
+
         if (!mayRequestContacts()) {
             return;
-        }
-*/
+
         getLoaderManager().initLoader(0, null, this);
-    }
+    }*/
 
     /*
     private boolean mayRequestContacts() {
@@ -216,6 +216,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     /**
      * Callback received when a permissions request has been completed.
      */
+    /*
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
@@ -225,7 +226,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         }
     }
-
+*/
 
     /**
      * Attempts to sign in or register the account specified by the login form.
@@ -244,22 +245,30 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             password_server.save(getApplicationContext().getFilesDir().getAbsolutePath() + "/PasswordFile",password_encrypt);
             intent.putExtra("password_encrypt", password_encrypt);
             startActivity(intent);
+            finish();
         } else {
             Server password_server = Server.load(getApplicationContext().getFilesDir().getAbsolutePath() + "/PasswordFile/password_file.txt",password_encrypt);
-
+            int toast_dur = Toast.LENGTH_LONG;
             if (password_encrypt.equals(password_server.passwd)) {
-                int toast_dur = Toast.LENGTH_LONG;
 
                 Toast toast = Toast.makeText(getApplicationContext(),"Password is correct!",toast_dur);
 
                 toast.show();
                 intent.putExtra("password_encrypt", password_encrypt);
                 startActivity(intent);
-            } else {
+                finish();
+            }else{
+                mPasswordView.setText("");
+                Toast toast = Toast.makeText(getApplicationContext(),"Password is incorrect!",toast_dur);
+                toast.show();
+                return;
+            }
+
+            /*else {
                 //TODO find a more elegant way to exit this function
                 Intent intent_back = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(intent_back);
-            }
+            }*/
         }
 
         //intent.putExtra("password", password);
@@ -296,7 +305,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }*/
 
 
-
+/*
         if (mAuthTask != null) {
             return;
         }
@@ -312,14 +321,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         View focusView = null;
 
         // Check for a valid password, if the user entered one.
-        /*if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
+        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView;
             cancel = true;
-        }*/
+        }
 
         // Check for a valid email address.
-        /*
+
         if (TextUtils.isEmpty(email)) {
             mEmailView.setError(getString(R.string.error_field_required));
             focusView = mEmailView;
@@ -328,7 +337,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mEmailView.setError(getString(R.string.error_invalid_email));
             focusView = mEmailView;
             cancel = true;
-        }*/
+        }
 
         if (cancel) {
             // There was an error; don't attempt login and focus the first
@@ -340,25 +349,22 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(true);
             mAuthTask = new UserLoginTask(password_encrypt);
             mAuthTask.execute((Void) null);
-        }
+        }*/
 
+        // new stuff
+        //mAuthTask = new UserLoginTask(password_encrypt);
+        //mAuthTask.execute((Void) null);
+        finish();
 
     }
 
-    private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
-        return email.contains("@");
-    }
 
-    private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
-        return password.length() > 4;
-    }
+
 
     /**
      * Shows the progress UI and hides the login form.
      */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+    /*@TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     private void showProgress(final boolean show) {
         // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
         // for very easy animations. If available, use these APIs to fade-in
@@ -389,9 +395,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
             mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
-    }
+    }*/
 
-    @Override
+   /* @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         return new CursorLoader(this,
                 // Retrieve data rows for the device user's 'profile' contact.
@@ -406,9 +412,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 // Show primary email addresses first. Note that there won't be
                 // a primary email address if the user hasn't specified one.
                 ContactsContract.Contacts.Data.IS_PRIMARY + " DESC");
-    }
+    }*/
 
-    @Override
+   /* @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
         List<String> emails = new ArrayList<>();
         cursor.moveToFirst();
@@ -423,7 +429,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     @Override
     public void onLoaderReset(Loader<Cursor> cursorLoader) {
 
-    }
+    }*/
 
     /*
     private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
@@ -435,7 +441,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mEmailView.setAdapter(adapter);
     }*/
 
-
+/*
     private interface ProfileQuery {
         String[] PROJECTION = {
                 ContactsContract.CommonDataKinds.Email.ADDRESS,
@@ -444,7 +450,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         int ADDRESS = 0;
         int IS_PRIMARY = 1;
-    }
+    }*/
 
     /**
      * Represents an asynchronous login/registration task used to authenticate
@@ -484,7 +490,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             return true;
         }
 
-        @Override
+       /* @Override
         protected void onPostExecute(final Boolean success) {
             mAuthTask = null;
             showProgress(false);
@@ -492,13 +498,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             if (success) {
                 finish();
             }
-        }
-
+        }*/
+/*
         @Override
         protected void onCancelled() {
             mAuthTask = null;
             showProgress(false);
-        }
+        }*/
     }
 }
 
