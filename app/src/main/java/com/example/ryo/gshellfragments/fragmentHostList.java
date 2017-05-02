@@ -1,5 +1,6 @@
 package com.example.ryo.gshellfragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -76,6 +77,13 @@ public class fragmentHostList extends Fragment {
             public void onItemClicked(RecyclerView recyclerView, int position, View v) {
                 // do it
                 Host item = ((RecyclerViewAdapter) recyclerView.getAdapter()).getHostItem(position);
+                Server server = new Server(item._alias, item._username, item._password, item._address);
+/*
+                Intent intent = new Intent(getActivity(), ServerTabActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("SERVER", server);
+                intent.putExtras(bundle);
+                startActivity(intent);*/
 
                 Toast.makeText(getActivity(),"Launch "+item._alias,Toast.LENGTH_SHORT).show();
             }
