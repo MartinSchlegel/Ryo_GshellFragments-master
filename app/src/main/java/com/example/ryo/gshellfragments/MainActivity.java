@@ -117,10 +117,8 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_settings) {
 
-        } else if (id == R.id.nav_share) {
-
         } else if (id == R.id.nav_logout) {
-
+        finish();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -156,8 +154,6 @@ public class MainActivity extends AppCompatActivity
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.container, new fragmentHostList())
                 .commit();
-
-
     }
 
     @Override
