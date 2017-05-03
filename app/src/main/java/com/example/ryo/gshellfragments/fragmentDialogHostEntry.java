@@ -79,6 +79,11 @@ public class fragmentDialogHostEntry extends DialogFragment {
                     public void onClick(DialogInterface dialog, int id) {
                         // User cancelled the dialog
                     }
+                })
+                .setNeutralButton("Test", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User cancelled the dialog
+                    }
                 });
         // Create the AlertDialog object and return it
         return builder.create();
